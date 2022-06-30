@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * todo:
@@ -25,16 +27,41 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
+@Table(name = "company")
 public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name", nullable = false)
     private String name;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "company")
     private List<Product> products = new ArrayList<>();
 
+    private void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     public void addProduct(Product product) {
-        throw new ExerciseNotCompletedException();
+        products.add(product);
+        product.setCompany(this);
     }
 
     public void removeProduct(Product product) {
-        throw new ExerciseNotCompletedException();
+        products.remove(product);
+        product.setCompany(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Company company = (Company) o;
+        return Objects.equals(id, company.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -15,8 +15,8 @@ public class Song {
     @Id
     @GeneratedValue
     private Long id;
-    @Column
+    @Column(name ="name")
     private String name;
-    @Column
+    @Column(name = "author")
     private String author;
 }

@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 /**
  * todo:
  * - configure JPA entity
@@ -16,9 +18,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
+@Table(name = "employee")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "fistName", nullable = false)
     private String fistName;
+
+    @Column(name = "lastName", nullable = false)
     private String lastName;
 }
